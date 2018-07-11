@@ -31,6 +31,7 @@ private:
 
 public:
     BOOL Initialize( VOID );
+    VOID HandleEvent( const SDL_Event& event );
     DWORD Update( FLOAT elapsedTime );
     DWORD Render( VOID );
 

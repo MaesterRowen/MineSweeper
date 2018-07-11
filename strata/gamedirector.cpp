@@ -81,6 +81,12 @@ namespace Strata
         }
     }
 
+    VOID GameDirector::HandleEvent( const SDL_Event& event )
+    {
+        GameState * pState = mStack.back();
+        pState->HandleEvent(event);
+    }
+
     VOID GameDirector::HandleInput( VOID )
     {
         if( mStateChanged == true && mInFrame ) return;

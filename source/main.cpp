@@ -17,7 +17,7 @@
 
 #include <switch.h>
 #include <iostream>
-#include "game/game.h"
+#include "game.h"
 
 #define USE_NXLINK  1           // Define to enable use of nxlink
 

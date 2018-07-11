@@ -22,6 +22,8 @@
 GameState_Game::GameState_Game( Strata::Application * appContext ) : 
     GameState(appContext)
 {
+    mActiveBoard = nullptr;
+    mFlagMode = FALSE;
 
 }
 GameState_Game::~GameState_Game( VOID )
@@ -34,24 +36,33 @@ VOID GameState_Game::OnEnter( VOID )
 {
     std::cout << "GameState_Game::OnEnter " << std::endl;
 
-    // Initialize our sprites
-    mBlank[0].Initialize( 32.0f, 32.0f, 32.0f, 32.0f, 1, Strata::ResourceManager::GetTextureHandle("Sprites.Piece_Empty"));
-    mBlank[1].Initialize( 64.0f, 32.0f, 32.0f, 32.0f, 1, Strata::ResourceManager::GetTextureHandle("Sprites.Piece_1"));
-    mBlank[2].Initialize( 96.0f, 32.0f, 32.0f, 32.0f, 1, Strata::ResourceManager::GetTextureHandle("Sprites.Piece_2"));
-    mBlank[3].Initialize( 128.0f, 32.0f, 32.0f, 32.0f, 1, Strata::ResourceManager::GetTextureHandle("Sprites.Piece_3"));
-    mBlank[4].Initialize( 160.0f, 32.0f, 32.0f, 32.0f, 1, Strata::ResourceManager::GetTextureHandle("Sprites.Piece_4"));
-    mBlank[5].Initialize( 192.0f, 32.0f, 32.0f, 32.0f, 1, Strata::ResourceManager::GetTextureHandle("Sprites.Piece_5"));
-    mBlank[6].Initialize( 224.0f, 32.0f, 32.0f, 32.0f, 1, Strata::ResourceManager::GetTextureHandle("Sprites.Piece_6"));
-    mBlank[7].Initialize( 256.0f, 32.0f, 32.0f, 32.0f, 1, Strata::ResourceManager::GetTextureHandle("Sprites.Piece_7"));
-    mBlank[8].Initialize( 288.0f, 32.0f, 32.0f, 32.0f, 1, Strata::ResourceManager::GetTextureHandle("Sprites.Piece_8"));
-
-    mBlock.Initialize( 0, 0, 32.0f, 32.0f, 1, Strata::ResourceManager::GetTextureHandle("Sprites.Block"));
-
+    mActiveBoard = new GameBoard(32.0f, 15, 10, 20);
+    if( mActiveBoard ) {
+        mActiveBoard->SetCenter( 320.0f, 180.0f );
+    }
 }
+VOID GameState_Game::HandleEvent( const SDL_Event& event)
+{
+    if( event.type == SDL_FINGERDOWN )
+    {
+        // Convert the screen cordinations to pixels
+        FLOAT x = event.tfinger.x * ((Game*)mpAppContext)->GetWidth();
+        FLOAT y = event.tfinger.y * ((Game*)mpAppContext)->GetHeight();
 
+        if( mActiveBoard && event.tfinger.fingerId == 0 ) {
+            if( mFlagMode == TRUE ) {
+                mActiveBoard->ToggleFlag( x, y );
+            } else {
+                mActiveBoard->CheckForTouch( x, y );
+            }
+        }
+    }
+}
 VOID GameState_Game::HandleInput( VOID )
 {
+    Strata::InputManager& input = ((Game*)mpAppContext)->GetInputManager();
 
+    mFlagMode = input.IsKeyDown( KEY_A );
 }
 
 VOID GameState_Game::Update(FLOAT elapsedTime)
@@ -63,14 +74,7 @@ VOID GameState_Game::Draw( VOID )
     mSpriteRenderer.BeginDraw( Strata::SpriteRenderer::SORTTYPE::SORTTYPE_BACKTOFRONT );
 
     // Draw borad
-    for( int y = 0; y < 10; y++ )
-    {
-        for( int x = 0; x < 15; x++ )
-        {
-            mBlock.Translate( x * 32.0f + 80.0f, y * 32.0f + 20.0f );
-            mBlock.Draw(mSpriteRenderer);
-        }
-    }
+    if( mActiveBoard ) mActiveBoard->Draw( mSpriteRenderer, 1);
 
     mSpriteRenderer.EndDraw();
     mSpriteRenderer.Render();

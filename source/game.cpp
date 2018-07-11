@@ -17,7 +17,7 @@
 
 #include <iostream>
 #include "game.h"
-#include "../states/gamestate_game.h"
+#include "states/gamestate_game.h"
 
 
 BOOL Game::Initialize( VOID )
@@ -42,6 +42,11 @@ BOOL Game::Initialize( VOID )
 
 Game::~Game( VOID )
 {
+}
+
+VOID Game::HandleEvent( const SDL_Event& event )
+{
+    mDirector.HandleEvent(event);
 }
 
 DWORD Game::Update( FLOAT elapsedTime )

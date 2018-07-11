@@ -19,7 +19,8 @@
 #define _GAMESTATE_TEST_H_
 
 #include <strata/strata.h>
-#include "../game/game.h"
+#include "../game.h"
+#include "../entities/gameboard.h"
 
 class GameState_Game : public Strata::GameState
 {
@@ -28,18 +29,21 @@ public:
     ~GameState_Game( VOID );
 
     VOID OnEnter( VOID );
-
+    VOID HandleEvent( const SDL_Event& event);
     VOID HandleInput( VOID );
     VOID Update(FLOAT elapsedTime);
     VOID Draw( VOID );
 
 private:
+    BOOL mFlagMode;
 
     Strata::SpriteFont fontSpr;
     Strata::SpriteRenderer mSpriteRenderer;
 
     Strata::Sprite mBlank[9];
     Strata::Sprite mBlock;
+
+    GameBoard * mActiveBoard;
 
 };
 

@@ -36,6 +36,7 @@ namespace Strata
         // SDL Variables
         SDL_Window* mpWindow;
         SDL_Renderer * mpRenderer;
+        SDL_Event mEvent;
 
         bool mRunning;
         int mWidth;
@@ -56,6 +57,8 @@ namespace Strata
         virtual DWORD Update(FLOAT elapsedTime ) = 0;
         virtual DWORD LateUpdate( FLOAT elapsedTime ) { return 0L; }
         virtual DWORD Render() = 0;
+
+        virtual VOID HandleEvent( const SDL_Event& mEvent ) {}
 
         // Function to create and run the application
         VOID Run(const std::string& title, int resolutionX = 640, int resolutionY = 360);

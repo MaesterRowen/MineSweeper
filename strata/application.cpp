@@ -80,6 +80,19 @@ namespace Strata
         mRunning = true;
         while( appletMainLoop() && mRunning ) 
         {
+            // Poll Events
+            while( SDL_PollEvent(&mEvent) != 0 )
+            {
+                // User requests to quite
+                if( mEvent.type > 0 ) {
+                    HandleEvent(mEvent);
+                    if( mEvent.type == SDL_QUIT ) {
+                        mRunning = false;
+                        continue;
+                    }
+                }
+            }
+
             // Clear frame buffer
             SDL_SetRenderDrawColor( mpRenderer, 0x44, 0x44, 0x44, 0xff );
             SDL_RenderClear( mpRenderer);

@@ -31,6 +31,7 @@ namespace Strata
         virtual void OnSuspend( VOID ) {}
         virtual void OnResume( VOID ) {}
 
+        virtual void HandleEvent( const SDL_Event& event ) {}
         virtual void HandleInput( VOID ) = 0;
         virtual void Update(FLOAT elapsedTime ) = 0;
         virtual void Draw( VOID );

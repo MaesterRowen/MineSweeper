@@ -35,6 +35,7 @@ namespace Strata
         VOID Add(const std::string& stateName, GameState* pState );
         VOID PushState( const std::string& stateName );
         VOID PopState( VOID );
+        VOID HandleEvent( const SDL_Event& event );
         VOID HandleInput( VOID );
         VOID Update( FLOAT elapsedTime );
         VOID Draw( VOID );
