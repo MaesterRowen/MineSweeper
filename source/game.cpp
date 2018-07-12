@@ -36,6 +36,9 @@ BOOL Game::Initialize( VOID )
     // Initialize Inputmnager
     mInputManager.Initialize( CONTROLLER_P1_AUTO );
 
+    // Set our clear color
+    SetClearColor( 0xFF, 0x22, 0x22, 0x22 );
+
     // Return succesfully
     return TRUE;
 }

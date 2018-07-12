@@ -36,9 +36,18 @@ VOID GameState_Game::OnEnter( VOID )
 {
     std::cout << "GameState_Game::OnEnter " << std::endl;
 
-    mActiveBoard = new GameBoard(32.0f, 15, 10, 20);
+    DWORD bombCount = 20;
+    mActiveBoard = new GameBoard(32.0f, 15, 10, bombCount);
     if( mActiveBoard ) {
         mActiveBoard->SetCenter( 320.0f, 180.0f );
+    }
+
+    mGameClock.SetPosition( 0.0f, 65.0f );
+    mGameClock.SetLimit( 9.0f );
+
+    mBombsLeft = new AnalogDisplay(3, bombCount);
+    if( mBombsLeft ) {
+        mBombsLeft->SetPosition(0.0f, 0.0f);
     }
 }
 VOID GameState_Game::HandleEvent( const SDL_Event& event)
@@ -67,14 +76,28 @@ VOID GameState_Game::HandleInput( VOID )
 
 VOID GameState_Game::Update(FLOAT elapsedTime)
 {
+    mGameClock.Tick(elapsedTime);
+    if( mGameClock.AtLimit() == TRUE ) {
+        mGameClock.Reset();
+    }
 }
 
 VOID GameState_Game::Draw( VOID )
 {
     mSpriteRenderer.BeginDraw( Strata::SpriteRenderer::SORTTYPE::SORTTYPE_BACKTOFRONT );
 
+    // Draw some text
+    Strata::SpriteFont font = ((Game*)mpAppContext)->GetFont();
+
+    font.SetScale( 0.25f );
+    font.SetColor( 255, 255, 255, 255 );
+    font.DrawText(mSpriteRenderer, 0.0f, 55.0f, SPRITEFONT_ALIGN_LEFT, 2, "Time:" );
+
     // Draw borad
     if( mActiveBoard ) mActiveBoard->Draw( mSpriteRenderer, 1);
+    if( mBombsLeft ) mBombsLeft->Draw( mSpriteRenderer, 2);
+
+    mGameClock.Draw( mSpriteRenderer, 2 );
 
     mSpriteRenderer.EndDraw();
     mSpriteRenderer.Render();

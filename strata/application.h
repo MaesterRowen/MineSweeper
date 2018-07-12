@@ -45,8 +45,11 @@ namespace Strata
 
         virtual ~Application() {}
 
+        COLOR mClearColor;
+
         // // Constructor
         Application() {
+            mClearColor.AsDWORD = MAKE_RGBA(255,255,255,255);
             mRunning = FALSE;
         }
 
@@ -67,6 +70,11 @@ namespace Strata
         virtual VOID QuitApplication( VOID ) {
             mRunning = FALSE;
         }        
+
+        VOID SetClearColor( BYTE a, BYTE r, BYTE g, BYTE b ) {
+            mClearColor.AsDWORD = MAKE_RGBA( r, g, b,a );
+        }
+        const COLOR& GetClearColor( VOID ) { return mClearColor; }
 
         VOID GetResolution( int * pWidth, int * pHeight);
         int GetWidth() { return mWidth; }

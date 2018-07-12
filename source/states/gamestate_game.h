@@ -21,6 +21,8 @@
 #include <strata/strata.h>
 #include "../game.h"
 #include "../entities/gameboard.h"
+#include "../entities/analogdisplay.h"
+#include "../entities/gameclock.h"
 
 class GameState_Game : public Strata::GameState
 {
@@ -44,6 +46,8 @@ private:
     Strata::Sprite mBlock;
 
     GameBoard * mActiveBoard;
+    AnalogDisplay * mBombsLeft;
+    GameClock mGameClock;
 
 };
 

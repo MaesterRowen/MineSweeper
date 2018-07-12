@@ -94,7 +94,7 @@ namespace Strata
             }
 
             // Clear frame buffer
-            SDL_SetRenderDrawColor( mpRenderer, 0x44, 0x44, 0x44, 0xff );
+            SDL_SetRenderDrawColor( mpRenderer, mClearColor.Components.r, mClearColor.Components.g, mClearColor.Components.b, mClearColor.Components.a );
             SDL_RenderClear( mpRenderer);
 
             Time.UpdateTime();

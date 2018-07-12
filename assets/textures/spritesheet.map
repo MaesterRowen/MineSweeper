@@ -12,4 +12,15 @@ Board_Bomb,0,16,16,32
 Board_Bomb_Wrong,16,16,32,32
 Board_Bomb_Explode,32,16,48,32
 Board_Question,48,16,64,32
-Board_Flag,,64,16,80,32
+Board_Flag,64,16,80,32
+Display_0,0,32,13,55
+Display_1,13,32,26,55
+Display_2,26,32,39,55
+Display_3,39,32,52,55
+Display_4,52,32,65,55
+Display_5,65,32,78,55
+Display_6,78,32,91,55
+Display_7,91,32,104,55
+Display_8,104,32,117,55
+Display_9,117,32,130,55
+
