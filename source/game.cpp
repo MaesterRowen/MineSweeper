@@ -18,6 +18,7 @@
 #include <iostream>
 #include "game.h"
 #include "states/gamestate_game.h"
+#include "states/gamestate_menu.h"
 
 
 BOOL Game::Initialize( VOID )
@@ -31,6 +32,7 @@ BOOL Game::Initialize( VOID )
     
     // Move to our first state
     mDirector.Add("Game", new GameState_Game(this));
+    mDirector.Add("Menu", new GameState_Menu(this));
     mDirector.PushState("Game");
 
     // Initialize Inputmnager

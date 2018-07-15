@@ -49,6 +49,9 @@ public:
     BOOL ToggleFlag( FLOAT x, FLOAT y );
     VOID Draw( Strata::SpriteRenderer& renderer, DWORD layer );
 
+    FLOAT GetCenterX() { return mCenterX; }
+    FLOAT GetCenterY() { return mCenterY; }
+
 private:
     // Private methods
     VOID LoadTextureHandles( VOID );

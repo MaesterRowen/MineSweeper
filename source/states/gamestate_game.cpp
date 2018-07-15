@@ -24,6 +24,8 @@ GameState_Game::GameState_Game( Strata::Application * appContext ) :
 {
     mActiveBoard = nullptr;
     mFlagMode = FALSE;
+    mTouchDownX = -100.0f;
+    mTouchDownY = -100.0f;
 
 }
 GameState_Game::~GameState_Game( VOID )
@@ -58,11 +60,32 @@ VOID GameState_Game::HandleEvent( const SDL_Event& event)
         FLOAT x = event.tfinger.x * ((Game*)mpAppContext)->GetWidth();
         FLOAT y = event.tfinger.y * ((Game*)mpAppContext)->GetHeight();
 
+        if( mActiveBoard && event.tfinger.fingerId == 0 ) 
+        {
+            // Store our touch down location
+            mTouchDownX = x; mTouchDownY = y;
+        }       
+    }
+    else if( event.type == SDL_FINGERUP )
+    {
+        // Convert the screen cordinations to pixels
+        FLOAT x = event.tfinger.x * ((Game*)mpAppContext)->GetWidth();
+        FLOAT y = event.tfinger.y * ((Game*)mpAppContext)->GetHeight();
+
         if( mActiveBoard && event.tfinger.fingerId == 0 ) {
-            if( mFlagMode == TRUE ) {
-                mActiveBoard->ToggleFlag( x, y );
-            } else {
-                mActiveBoard->CheckForTouch( x, y );
+
+            // Verify if our finger position has moved outside of our box of 32x32px
+            if( x > mTouchDownX - 16.0f && x < mTouchDownX + 16.0f && y > mTouchDownY - 16.0f && y < mTouchDownY + 16.0f ) 
+            {
+                if( mFlagMode == TRUE ) {
+                    mActiveBoard->ToggleFlag( x, y );
+                } else {
+                    mActiveBoard->CheckForTouch( x, y );
+                }
+
+                // Reset touch postiion
+                mTouchDownX = -100.0f;
+                mTouchDownY = -100.0f;
             }
         }
     }

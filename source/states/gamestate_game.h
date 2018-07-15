@@ -39,6 +39,7 @@ public:
 private:
     BOOL mFlagMode;
 
+    FLOAT mTouchDownX, mTouchDownY;
     Strata::SpriteFont fontSpr;
     Strata::SpriteRenderer mSpriteRenderer;
 
